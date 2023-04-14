@@ -1,0 +1,32 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+//color palette
+$blackColor: #000000;
+$darkGray: #6d5e68;
+$darkMedGray: #938285;
+$medGray: #b2a5a4;
+$lightMedGray: #ddd6d3;
+$whiteColor: #f8f5f5;
+    
+$darkGreen: #524f7a;
+$darkMedGreen: #57757c;
+$medGreen: #6ea080;
+$lightMedGreen: #97c187;
+$lightGreen: #d1e0a9;
+$lightLightGreen: #f3f9cf;
+
+$darkRed: #773e5b;
+$darkMedRed: #a83d3d;
+$medRed: #d35454;
+$lightMedRed: #e28383;
+$lightRed: #f4b6ab;
+
+$font-family-sans-serif: 'Nunito', sans-serif;
+
+// .navbar-collapse {
+//     justify-content: flex-end;
+// }
+
+.mainNavbar {
+    background-color: $lightLightGreen;
+}
