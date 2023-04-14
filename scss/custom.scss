@@ -21,12 +21,28 @@ $medRed: #d35454;
 $lightMedRed: #e28383;
 $lightRed: #f4b6ab;
 
-$font-family-sans-serif: 'Nunito', sans-serif;
+//box shadows
+$box-shadow-sm: 0 .125rem .25rem rgba($darkGreen, .075);
+$box-shadow-lg: 0 1rem 3rem rgba($darkGreen, .200);
 
-// .navbar-collapse {
-//     justify-content: flex-end;
-// }
+//font families
+$font-family-sans-serif: 'Nunito', sans-serif;
 
 .mainNavbar {
     background-color: $lightLightGreen;
+    font-family: $font-family-sans-serif;
+    box-shadow: $box-shadow-lg;
+}
+
+.siteTitle {
+    font-size: large;
+}
+
+.navbarContent {
+    font-size: medium;
+}
+
+.recipeCard {
+    padding: 0.5rem;
+    box-shadow: $box-shadow-sm;
 }

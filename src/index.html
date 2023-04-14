@@ -13,18 +13,20 @@
     <!-- <script type="module" src="js/main.js"></script> -->
     <script src="./index.js"></script>
   </head>
+
+
   <body>
     <div class="container">
         <nav class="navbar mainNavbar navbar-expand-lg">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
-                    <img src="../assets/recex-logo.svg" alt="Logo" width="40" height="40" class="d-inline-block align-text-middle">
+                    <img src="../assets/recex-logo.svg" alt="Logo" width="40" height="40" class="d-inline-block align-text-middle siteTitle">
                     The Recipe Exchange
                   </a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbarContent">
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
@@ -46,10 +48,20 @@
             </div>
           </nav>
     </div>
+
+
     <div class="container-fluid homeGrid text-center mt-5">
         <div class="row">
           <div class="col">
-            Column
+            <div class="card recipeCard start-50 rounded" style="width: 18rem;">
+                <img src="../assets/default_image@2x.png" class="card-img-top" alt="default_image">
+                <div class="card-body">
+                    <p>Recipe Name</p>
+                  <!-- <p class="short-desc">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                  <p>Rating would go here</p>
+                  <li class="nav-link" href="#">Username</li>
+                </div>
+              </div>
           </div>
           <div class="col">
             Column
@@ -59,5 +71,8 @@
           </div>
         </div>
       </div>
+
+
+
   </body>
 </html>

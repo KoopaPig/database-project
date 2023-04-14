@@ -12008,6 +12008,21 @@ textarea.form-control-lg {
 
 .mainNavbar {
   background-color: #f3f9cf;
+  font-family: Nunito, sans-serif;
+  box-shadow: 0 1rem 3rem #524f7a33;
+}
+
+.siteTitle {
+  font-size: large;
+}
+
+.navbarContent {
+  font-size: medium;
+}
+
+.recipeCard {
+  padding: .5rem;
+  box-shadow: 0 .125rem .25rem #524f7a13;
 }
 
 /*# sourceMappingURL=index.1346fb5e.css.map */
