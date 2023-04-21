@@ -4,9 +4,9 @@
   "description": "Repo for recipe-exchange site for Intro to Databases class Spring 2023",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel ./src/index.html",
+    "dev": "parcel ./FrontEnd/Website/src/html/index.html",
     "prebuild": "npx rimraf build",
-    "build": "parcel build --public-url ./src/index.html --experimental-scope-hoisting --out-dir build",
+    "build": "parcel build --public-url ./FrontEnd/Website/src/html/index.html --experimental-scope-hoisting --out-dir build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
