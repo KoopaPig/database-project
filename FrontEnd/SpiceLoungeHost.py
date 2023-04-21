@@ -1,10 +1,10 @@
-from flask import Flask, redirect, url_for, request,render_template,Blueprint
+from flask import Flask, request,render_template
 import requests
 import os
 from flask_mysqldb import MySQL
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-template_dir = os.path.join(dir_path, "database-project/src/html")
+template_dir = os.path.join(dir_path, "Website/src/html")
 app = Flask(__name__,template_folder=template_dir)
 
 app.config['MYSQL_HOST']='localhost'
@@ -27,6 +27,7 @@ def test():
         return render_template("success.html")
     else:
         return "Failed Login"
+    
 #Home Page
 @app.route("/")
 @app.route("/home")
@@ -68,4 +69,5 @@ def createAccount():
 
 
 if __name__  == '__main__':
-    app.run(debug=True,port=5001)
+    #doesnt work with reloader for some reason
+    app.run(debug=True,port=5001,use_reloader=False)
