@@ -62,11 +62,37 @@ def login():
 def createAccount():
     return render_template("login.html")
 
+# Brings up account settings, verified by session ideally
+@app.route("/account/settings")
+def settings():
+    return render_template("login.html")
+
 #End of Account Directories -------------------------------------------------
 
+#Posts ----------------------------------------------------------------------
+@app.route("/post")
+def viewPost():
+    postID=request.args.get("id")
+    return render_template("login.html")
 
+@app.route("/post/create")
+def createPost():
+    return render_template("login.html")
 
+# Post submission form here, may toss on different server
+@app.route("/post/create/submission")
+def submissionStatus():
+    return render_template("login.html")
 
+#End of posts ---------------------------------------------------------------
+
+#Search ---------------------------------------------------------------------
+# Post submission form here, may toss on different server
+@app.route("/results/<query>",methods=["POST","GET"])
+def search(query):
+    dat="FAKE"
+    return render_template("searchResults.html",query=dat)
+#End of search --------------------------------------------------------------
 
 if __name__  == '__main__':
     #doesnt work with reloader for some reason
