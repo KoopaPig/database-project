@@ -1,0 +1,14 @@
+create table Post(
+
+	Post_ID char(20) not null,
+	Title varchar(20) not null,
+	Description varchar(200) not null,
+	Images blob not null,
+	Posted_On date not null,
+	User_ID char(20) not null,
+	Step_Num int(2) not null,
+	primary key (Post_ID),
+	foreign key (User_ID) references UserProfile(User_ID),
+	foreign key (Step_Num) references Instructions(Step_Num)
+
+);

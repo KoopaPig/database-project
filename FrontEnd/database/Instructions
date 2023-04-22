@@ -1,0 +1,7 @@
+create table Instructions(
+    
+	Step_Num int(2) not null,
+	Step_Description varchar(200),
+	primary key (Step_Num),	
+    
+);

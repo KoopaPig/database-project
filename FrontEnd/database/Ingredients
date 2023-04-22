@@ -1,0 +1,11 @@
+create table Ingredients(
+
+	Tag char(20) not null,
+	Post_ID char(20) not null,
+	Amount int(2) not null,
+	Unit varchar(20) not null,
+	primary key (Tag),
+	foreign key (Post_ID) references Post(Post_ID),
+	foreign key (Tag) references Food(Tag)
+
+);

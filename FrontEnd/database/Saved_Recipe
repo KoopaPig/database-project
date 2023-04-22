@@ -1,0 +1,8 @@
+create table SavedRecipe(
+
+	Post_ID char(20) not null,
+	User_ID char(20) not null,
+	foreign key (Post_ID) references Post(Post_ID),
+	foreign key (User_ID) references UserProfile(User_ID)
+
+);
