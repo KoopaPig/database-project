@@ -1,0 +1,8 @@
+create table PostEquipment(
+    
+	Equipment varchar(30) not null,
+	Post_ID char(20) not null,
+	primary key (Equipment),
+	foreign key (Post_ID) references Post(Post_ID)
+    
+);

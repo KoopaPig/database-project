@@ -1,0 +1,8 @@
+create table Allergy(
+
+	Tag char(20) not null,
+	User_ID char(20) not null,
+	foreign key (Tag) references Food(Tag),
+	foreign key (User_ID) references UserProfile(User_ID)
+
+);

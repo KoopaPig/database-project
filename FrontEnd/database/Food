@@ -1,9 +1,0 @@
-create table Food(
-
-	Tag char(20) not null,
-	Distinct_Food varchar(30) not null,
-	Category varchar(20) not null,
-	Nutritional_Info varchar(200) not null,
-	primary key (Tag)
-
-);
