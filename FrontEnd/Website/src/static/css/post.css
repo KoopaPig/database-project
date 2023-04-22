@@ -1,0 +1,98 @@
+/* apply a reset to remove any default browser styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* set a max-width for the content container */
+  .container-post {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* style the page title */
+  .container-post h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* style the username and date */
+  .container-post .meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  /* style the recipe image */
+  .container-post img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  /* style the recipe description */
+  .container-post .description {
+    margin-bottom: 20px;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  
+  /* style the ingredients and equipment lists */
+  .container-post .lists {
+    width:47%;
+    background-color: #f4b6ab;
+    border-radius: 15px;
+
+  }
+  .container-post .list-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* .container-post .lists ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 18px;
+    line-height: 1.5;
+  } */
+  
+  /* style the recipe steps */
+  .container-post .steps {
+    margin-bottom: 20px;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  
+  /* apply some media queries for mobile responsiveness */
+  @media (max-width: 767px) {
+    .container-post {
+      padding: 10px;
+    }
+  
+    .container-post h1 {
+      font-size: 24px;
+    }
+  
+    .container-post .meta {
+      font-size: 12px;
+    }
+  
+    .container-post .description {
+      font-size: 16px;
+    }
+  
+    .container-post .lists {
+      flex-direction: column;
+    }
+  
+    .container-post .lists ul {
+      margin-bottom: 10px;
+    }
+  }
+  

@@ -3,9 +3,13 @@ import requests
 import os
 from flask_mysqldb import MySQL
 
+
+
+
 dir_path = os.path.dirname(os.path.realpath(__file__))
 template_dir = os.path.join(dir_path, "Website/src/html")
-app = Flask(__name__,template_folder=template_dir)
+staticDir=os.path.join(dir_path, "Website/src/static")
+app = Flask(__name__,template_folder=template_dir,static_folder=staticDir)
 
 app.config['MYSQL_HOST']='localhost'
 app.config['MYSQL_USER']='root'
@@ -70,10 +74,34 @@ def settings():
 #End of Account Directories -------------------------------------------------
 
 #Posts ----------------------------------------------------------------------
+class Post:
+    def __init__(self, title, username, date, rating, image, short_description, ingredients, equipment, steps):
+        self.title = title
+        self.username = username
+        self.date = date
+        self.rating = rating
+        self.image = image
+        self.short_description = short_description
+        self.ingredients = ingredients
+        self.equipment = equipment
+        self.steps = steps
+
 @app.route("/post")
 def viewPost():
     postID=request.args.get("id")
-    return render_template("login.html")
+    title = 'My Awesome Post'
+    username = 'johndoe'
+    date = '2022-05-01'
+    rating = 4.5
+    image = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80'
+    short_description = 'This is a short description of my post'
+    ingredients = ['Ingredient 1', 'Ingredient 2', 'Ingredient 3']
+    equipment = ['Equipment 1', 'Equipment 2', 'Equipment 3']
+    steps = ['Step 1', 'Step 2', 'Step 3']
+
+    post = Post(title, username, date, rating, image, short_description, ingredients, equipment, steps)
+
+    return render_template("post.html",post=post)
 
 @app.route("/post/create")
 def createPost():
@@ -85,7 +113,6 @@ def submissionStatus():
     return render_template("login.html")
 
 #End of posts ---------------------------------------------------------------
-
 #Search ---------------------------------------------------------------------
 # Post submission form here, may toss on different server
 @app.route("/results/<query>",methods=["POST","GET"])
