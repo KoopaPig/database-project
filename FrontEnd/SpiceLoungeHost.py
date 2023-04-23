@@ -4,8 +4,6 @@ import os
 from flask_mysqldb import MySQL
 
 
-
-
 dir_path = os.path.dirname(os.path.realpath(__file__))
 template_dir = os.path.join(dir_path, "Website/src/html")
 staticDir=os.path.join(dir_path, "Website/src/static")
@@ -105,7 +103,7 @@ def viewPost():
 
 @app.route("/post/create")
 def createPost():
-    return render_template("login.html")
+    return render_template("recipe-submit.html")
 
 # Post submission form here, may toss on different server
 @app.route("/post/create/submission")
