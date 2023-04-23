@@ -177,7 +177,7 @@ create table Allergy(
         END$$
     
     --Get Associated Posts
-        CREATE FUNCTION get_user_posts_sorted_by_rating(user_id INT)
+        CREATE FUNCTION getPosts(user_id INT)
         RETURNS TABLE (title VARCHAR(255))
         BEGIN
             -- Declare a cursor to fetch the titles and ratings from the joined tables
@@ -191,23 +191,22 @@ create table Allergy(
             DECLARE @title VARCHAR(255);
             -- Create a temporary table to store the results
             CREATE TEMPORARY TABLE IF NOT EXISTS temp_titles (title VARCHAR(255));
-    -- Fetch and insert titles into the temporary table
-    OPEN cur;
-    FETCH cur INTO @title;
-    WHILE @@FETCH_STATUS = 0 DO
-        INSERT INTO temp_titles (title) VALUES (@title);
-        FETCH cur INTO @title;
-    END WHILE;
-    CLOSE cur;
+            -- Fetch and insert titles into the temporary table
+            OPEN cur;
+            FETCH cur INTO @title;
+            WHILE @@FETCH_STATUS = 0 DO
+            INSERT INTO temp_titles (title) VALUES (@title);
+            FETCH cur INTO @title;
+            END WHILE;
+            CLOSE cur;
 
-    -- Return the titles from the temporary table
-    SELECT title FROM temp_titles;
+            -- Return the titles from the temporary table
+            SELECT title FROM temp_titles;
 
-    -- Drop the temporary table
-    DROP TEMPORARY TABLE IF EXISTS temp_titles;
-END$$
-
-DELIMITER ;
+            -- Drop the temporary table
+            DROP TEMPORARY TABLE IF EXISTS temp_titles;
+        END$$
 
     --Associated Reviews
+        Select Rating FROM Rated WHERE User_ID = <User_ID> ORDER BY Rating DESC;
 
