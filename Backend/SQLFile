@@ -73,3 +73,97 @@ create table Allergy(
 
 );
 
+--Login:
+    --Existing Account
+    CREATE FUNCTION ExistingAccount(username_or_email VARCHAR(255), password VARCHAR(255))
+    RETURNS BOOLEAN
+    BEGIN
+    DECLARE user_id INT;
+    DECLARE exists BOOLEAN;
+
+    -- Check if username_or_email and password match in the database
+    SELECT id INTO user_id FROM UserProfile WHERE (Display_name = username_or_email OR Email = username_or_email) AND Password = Password;
+
+    -- If user_id is not null, then the user exists
+    IF user_id IS NOT NULL THEN
+        SET exists = TRUE;
+    ELSE
+        SET exists = FALSE;
+    END IF;
+
+    RETURN exists;
+    END$$
+
+    --New User
+    CREATE FUNCTION insert_new_user(username VARCHAR(255), email VARCHAR(255), password VARCHAR(255))
+    RETURNS INT
+    BEGIN
+    DECLARE new_user_id INT;
+
+    -- Insert new user into the users table
+    INSERT INTO UserProfile (Display_Name, Email, Password) VALUES (username, email, password);
+
+    -- Get the ID of the newly inserted user
+    SET new_user_id = LAST_INSERT_ID();
+
+    RETURN new_user_id;
+    END$$
+
+--User Settings:
+    --Modifying
+        --Display Name
+        CREATE FUNCTION update_user_display_name(user_id INT, display_name VARCHAR(255))
+        RETURNS BOOLEAN
+        BEGIN
+        DECLARE updated BOOLEAN;
+
+        -- Update user's display name in the users table
+        UPDATE UserProfile SET Display_Name = Display_Name WHERE User_ID = user_id;
+
+        -- Check if the update was successful
+        IF ROW_COUNT() > 0 THEN
+            SET updated = TRUE;
+        ELSE
+           SET updated = FALSE;
+        END IF;
+
+        RETURN updated;
+        END$$
+
+        --Password
+        CREATE FUNCTION update_user_password(user_id INT, password VARCHAR(255))
+        RETURNS BOOLEAN
+        BEGIN
+        DECLARE updated BOOLEAN;
+
+        -- Update user's password in the users table
+        UPDATE UserProfile SET Password = password WHERE User_ID = user_id;
+
+        -- Check if the update was successful
+        IF ROW_COUNT() > 0 THEN
+            SET updated = TRUE;
+        ELSE
+            SET updated = FALSE;
+        END IF;
+
+        RETURN updated;
+        END$$
+
+        --delete
+        CREATE FUNCTION delete_user(user_id INT)
+        RETURNS BOOLEAN
+        BEGIN
+        DECLARE deleted BOOLEAN;
+
+        -- Delete user from the users table
+        DELETE FROM UserProfile WHERE User_ID = user_id;
+
+        -- Check if the deletion was successful
+        IF ROW_COUNT() > 0 THEN
+           SET deleted = TRUE;
+        ELSE
+            SET deleted = FALSE;
+        END IF;
+
+        RETURN deleted;
+        END$$
