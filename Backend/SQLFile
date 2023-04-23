@@ -210,3 +210,11 @@ create table Allergy(
     --Associated Reviews
         Select Rating FROM Rated WHERE User_ID = <User_ID> ORDER BY Rating DESC;
 
+--Home Page
+    --Shows recipes according to style
+        SELECT * FROM Posts ORDER BY Description;
+
+--Add Recipe
+    --update Post
+        Add to Post values(“Post_ID”,”Title”,”Description”,Image, MM/DD/YYYY, “User_ID”,Step_Num);
+
