@@ -1,0 +1,75 @@
+create table UserProfile(
+
+	User_ID char(20) not null,
+	Display_Name varchar(30) not null,
+	Bio varchar(200) not null,
+	Password varchar(15) not null,
+	Email varchar(100) not null,
+	primary key (User_ID)
+
+);
+create table SavedRecipe(
+
+	Post_ID char(20) not null,
+	User_ID char(20) not null,
+	foreign key (Post_ID) references Post(Post_ID),
+	foreign key (User_ID) references UserProfile(User_ID)
+
+);
+create table Rated(
+
+	Post_ID char(20) not null,
+	User_ID char(20) not null,
+	Rating int(1) not null,
+	Comment varchar(200) not null,
+	foreign key (Post_ID) references Post(Post_ID),
+	Foreign key (User_ID) references UserProfile(User_ID)
+
+);
+create table PostEquipment(
+    
+	Equipment varchar(30) not null,
+	Post_ID char(20) not null,
+	primary key (Equipment),
+	foreign key (Post_ID) references Post(Post_ID)
+    
+);
+create table Post(
+
+	Post_ID char(20) not null,
+	Title varchar(20) not null,
+	Description varchar(200) not null,
+	Images blob not null,
+	Posted_On date not null,
+	User_ID char(20) not null,
+	Step_Num int(2) not null,
+	primary key (Post_ID),
+	foreign key (User_ID) references UserProfile(User_ID),
+	foreign key (Step_Num) references Instructions(Step_Num)
+
+);
+create table Instructions(
+    
+	Step_Num int(2) not null,
+	Step_Description varchar(200),
+	primary key (Step_Num),	
+    
+);
+create table Food(
+
+	Tag char(20) not null,
+	Distinct_Food varchar(30) not null,
+	Category varchar(20) not null,
+	Nutritional_Info varchar(200) not null,
+	primary key (Tag)
+
+);
+create table Allergy(
+
+	Tag char(20) not null,
+	User_ID char(20) not null,
+	foreign key (Tag) references Food(Tag),
+	foreign key (User_ID) references UserProfile(User_ID)
+
+);
+
