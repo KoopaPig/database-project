@@ -1,0 +1,210 @@
+
+/*import main font*/
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+:root {
+    /*set up colors here*/
+    --blackColor: #000000;
+    --darkGray: #6d5e68;
+    --darkMedGray: #938285;
+    --medGray: #b2a5a4;
+    --lightMedGray: #ddd6d3;
+    --whiteColor: #f8f5f5;
+    
+    --darkGreen: #524f7a;
+    --darkMedGreen: #57757c;
+    --medGreen: #6ea080;
+    --lightMedGreen: #97c187;
+    --lightGreen: #d1e0a9;
+    --lightLightGreen: #f3f9cf;
+
+    --darkRed: #773e5b;
+    --darkMedRed: #a83d3d;
+    --medRed: #d35454;
+    --lightMedRed: #e28383;
+    --lightRed: #f4b6ab;
+
+    /*scales*/
+    --fs14: 1.4rem;
+    --fs16: 1.6rem;
+    --fs20: 2rem;
+
+    /*box shadows*/
+    --box-shadow-sm: 0 .125rem .25rem rgba(var(--darkGreen), .075);
+    --box-shadow-lg: 0 1rem 3rem rgba(var(--darkGreen), .200);
+}
+
+html {
+    font-size: 80%;
+    scroll-behavior: smooth;
+}
+
+u1 {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+body {
+    line-height: 1;
+    font-weight: 400;
+}
+
+h3, h4 {
+    font-weight: 600;
+}
+
+h4, p, span{
+    font-size: var(--fs14);
+}
+
+p {
+    color: var(--blackColor);
+    line-height: 2.4rem;
+}
+
+.mainNavbar {
+    background-color: var(--lightLightGreen);
+    box-shadow: var(--box-shadow-lg);
+}
+.siteTitle {
+    font-size: large;
+}
+.navbarContent {
+    font-size: medium;
+}
+.recipeCard {
+    padding: 0.5rem;
+    box-shadow: var(--box-shadow-sm);
+}
+
+.signInButton {
+    background-color: var(--medGreen);
+    border-color: transparent;
+}
+  
+
+
+
+
+
+
+
+
+
+/**/
+/*colors into .c and .bg forms*/
+/**/
+.c-blackColor {
+    color: var(--blackColor);
+}
+.c-darkGray {
+    color: var(--darkGray);
+}
+.c-darkMedGray {
+    color: var(--darkMedGray);
+}
+.c-medGray {
+    color: var(--medGray);
+}
+.c-lightMedGray {
+    color: var(--lightMedGray);
+}
+.c-whiteColor {
+    color: var(--whiteColor);
+}
+.c-darkGreen {
+    color: var(--darkGreen);
+}
+.c-darkMedGreen {
+    color: var(--darkMedGreen);
+}
+.c-medGreen {
+    color: var(--medGreen);
+}
+.c-lightMedGreen {
+    color: var(--lightMedGreen);
+}
+.c-lightGreen {
+    color: var(--lightGreen);
+}
+.c-lightLightGreen {
+    color: var(--lightLightGreen);
+}
+.c-darkRed {
+    color: var(--darkRed);
+}
+.c-darkMedRed {
+    color: var(--darkMedRed);
+}
+.c-medRed {
+    color: var(--medRed);
+}
+.c-lightMedRed {
+    color: var(--lightMedRed);
+}
+.c-lightRed {
+    color: var(--lightRed);
+}
+.bg-blackColor {
+    background-color: var(--blackColor);
+}
+.bg-darkGray {
+    background-color: var(--darkGray);
+}
+.bg-darkMedGray {
+    background-color: var(--darkMedGray);
+}
+.bg-medGray {
+    background-color: var(--medGray);
+}
+.bg-lightMedGray {
+    background-color: var(--lightMedGray);
+}
+.bg-whiteColor {
+    background-color: var(--whiteColor);
+}
+.bg-darkGreen {
+    background-color: var(--darkGreen);
+}
+.bg-darkMedGreen {
+    background-color: var(--darkMedGreen);
+}
+.bg-medGreen {
+    background-color: var(--medGreen);
+}
+.bg-lightMedGreen {
+    background-color: var(--lightMedGreen);
+}
+.bg-lightGreen {
+    background-color: var(--lightGreen);
+}
+.bg-lightLightGreen {
+    background-color: var(--redColor);
+}
+.bg-darkRed {
+    background-color: var(--darkRed);
+}
+.bg-darkMedRed {
+    background-color: var(--darkMedRed);
+}
+.bg-medRed {
+    background-color: var(--medRed);
+}
+.bg-lightMedRed {
+    background-color: var(--lightMedRed);
+}
+.bg-lightRed {
+    background-color: var(--lightRed);
+}
