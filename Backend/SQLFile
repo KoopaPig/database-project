@@ -53,8 +53,7 @@ create table Instructions(
     Post_ID char(20) Not NULL, --To reference the post table
 	Step_Num int(2) not null, --To hold the step number
 	Step_Description varchar(200),
-	primary key (Post_ID),
-    PRIMARY KEY (Step_Num),	
+	primary key (Post_ID, Step_Num),
     FOREIGN KEY (Post_ID) REFERENCES Post(Post_ID),
 
 );
