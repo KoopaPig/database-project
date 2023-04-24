@@ -1,4 +1,9 @@
-<!--=will be landing/login page?-->
+<!-- TO DO: 
+    define amount of cards per page 
+    'prev'/'next' buttons
+-->
+
+
 <!doctype html>
 <html lang="en">
 
@@ -22,7 +27,7 @@
     <nav class="navbar mainNavbar navbar-expand-lg">
       <div class="container-fluid">
         <a class="navbar-brand" href="/home">
-          <img src="../../assets/recex-logo.svg" alt="Logo" width="40" height="40"
+          <img src="../static/recex-logo.svg" alt="Logo" width="40" height="40"
             class="d-inline-block align-text-middle siteTitle">
           Spice Lounge
         </a>
@@ -49,7 +54,10 @@
             <li class="nav-item me-2">
               <a class="nav-link" href="/account/settings">User Settings</a>
             </li>
-
+            <!-- TEMP -->
+            <li class="nav-item me-2">
+              <a class="nav-link" href="/temp">TEMP</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -57,33 +65,29 @@
   </div>
 
 
-  <div class="container-fluid homeGrid text-center mt-5">
-    <div class="row">
-      <div class="col">
-        <a href="/post/{{posts[0].id}}">
-          <div class="card recipeCard start-50 rounded" style="width: 18rem;">
-            <img src="{{posts[0].image}}"
-              class="card-img-top" alt="default_image">
-            <div class="card-body">
-              <p>{{posts[0].title}}</p>
-              <!-- <p class="short-desc">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-              <p >{{posts[0].rating}}</p>
-              <a class="nav-link" href="/account?{{posts[0].username}}">{{posts[0].username}}</a>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="col">
-        Column
-      </div>
-      <div class="col">
-        Column
-      </div>
+  <div class="wrapper homeGrid mt-5">
+    {% for item in posts %}       
+    <div class="card recipeCard rounded" style="width: 18rem;">    
+      <a href="/post/{{posts[0].id}}">
+        <img src="{{posts[0].image}}"
+          class="card-img-top" alt="default_image">
+        <div class="card-body">
+          <p>{{posts[0].title}}</p>
+          <p>{{posts[0].rating}}</p>
+          <a class="nav-link" href="/account?{{posts[0].username}}">{{posts[0].username}}</a>
+        </div>
+      </a>
     </div>
+    {% endfor %}
 
   </div>
-
-
+  <!-- implement page buttons -->
+  <div class="container-fluid">
+    <div class="d-flex justify-content-around align-items-center mt-4 mb-4">
+      <button>Prev</button>
+      <button>Next</button>
+    </div>
+  </div>
 
 </body>
 

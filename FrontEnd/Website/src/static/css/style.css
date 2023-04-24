@@ -88,15 +88,71 @@ p {
     padding: 0.5rem;
     box-shadow: var(--box-shadow-sm);
 }
+.homeGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
 
 .signInButton {
     background-color: var(--medGreen);
     border-color: transparent;
 }
-  
 
 
 
+.form-control:focus {
+    box-shadow: none;
+    border-color: #BA68C8
+}
+
+.profile-button {
+    background: rgb(99, 39, 120);
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background: #682773
+}
+
+.profile-button:focus {
+    background: #682773;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #682773;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #682773;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #BA68C8;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #BA68C8
+}
+
+.profile-header {
+    transform: translateY(5rem);
+}
+
+.profile-name {
+    color: var(--whiteColor);
+    text-align: center;
+}
+.profile-bg {
+    background-color: var(--darkMedGreen);
+}
 
 
 
