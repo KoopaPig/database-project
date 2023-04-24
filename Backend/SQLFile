@@ -49,14 +49,14 @@ create table Post(
 
 );
 create table Instructions(
-    
-    Instruction_ID char(20) Not NULL, --Auto Increment
+
     Post_ID char(20) Not NULL, --To reference the post table
 	Step_Num int(2) not null, --To hold the step number
 	Step_Description varchar(200),
-	primary key (Instruction_ID),	
+	primary key (Post_ID),
+    PRIMARY KEY (Step_Num),	
     FOREIGN KEY (Post_ID) REFERENCES Post(Post_ID),
-    FOREIGN KEY (Step_Num) REFERENCES Post(Step_Num)
+
     
 );
 create table Food(
