@@ -50,9 +50,13 @@ create table Post(
 );
 create table Instructions(
     
-	Step_Num int(2) not null,
+    Instruction_ID char(20) Not NULL, --Auto Increment
+    Post_ID char(20) Not NULL, --To reference the post table
+	Step_Num int(2) not null, --To hold the step number
 	Step_Description varchar(200),
-	primary key (Step_Num),	
+	primary key (Instruction_ID),	
+    FOREIGN KEY (Post_ID) REFERENCES Post(Post_ID),
+    FOREIGN KEY (Step_Num) REFERENCES Post(Step_Num)
     
 );
 create table Food(
@@ -281,3 +285,5 @@ create table Allergy(
 	Join ingredients on post.post_id = ingredients.post_id
 	Join food on ingredients.tag = food.tag
 	Where post_id = post
+
+
