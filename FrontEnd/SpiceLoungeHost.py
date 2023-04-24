@@ -1,6 +1,7 @@
 from flask import Flask, request,render_template
 import requests
 import os
+import random
 from flask_mysqldb import MySQL
 
 
@@ -15,6 +16,19 @@ app.config['MYSQL_PASSWORD']=''
 app.config['MYSQL_DB']='class'
 
 mysql=MySQL(app)
+
+class Post:
+    def __init__(self, title, username, date, rating, image, short_description, ingredients, equipment, steps,id):
+        self.title = title
+        self.username = username
+        self.date = date
+        self.rating = rating
+        self.image = image
+        self.short_description = short_description
+        self.ingredients = ingredients
+        self.equipment = equipment
+        self.steps = steps
+        self.id=id
 
 @app.route("/validate")
 def test():
@@ -34,7 +48,20 @@ def test():
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template("index.html")
+    id=random.random
+    title = 'My Awesome Post'
+    username = 'johndoe'
+    date = '2022-05-01'
+    rating = 4.5
+    image = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80'
+    short_description = 'This is a short description of my post'
+    ingredients = ['Ingredient 1', 'Ingredient 2', 'Ingredient 3']
+    equipment = ['Equipment 1', 'Equipment 2', 'Equipment 3']
+    steps = ['Step 1', 'Step 2', 'Step 3']
+
+    post = Post(title, username, date, rating, image, short_description, ingredients, equipment, steps,id)
+    posts=[post].rep
+    return render_template("index.html",posts=posts)
 
 #Account directories --------------------------------------------------------
 
@@ -72,21 +99,10 @@ def settings():
 #End of Account Directories -------------------------------------------------
 
 #Posts ----------------------------------------------------------------------
-class Post:
-    def __init__(self, title, username, date, rating, image, short_description, ingredients, equipment, steps):
-        self.title = title
-        self.username = username
-        self.date = date
-        self.rating = rating
-        self.image = image
-        self.short_description = short_description
-        self.ingredients = ingredients
-        self.equipment = equipment
-        self.steps = steps
 
-@app.route("/post")
-def viewPost():
-    postID=request.args.get("id")
+
+@app.route("/post/<id>")
+def viewPost(id):
     title = 'My Awesome Post'
     username = 'johndoe'
     date = '2022-05-01'
@@ -97,7 +113,7 @@ def viewPost():
     equipment = ['Equipment 1', 'Equipment 2', 'Equipment 3']
     steps = ['Step 1', 'Step 2', 'Step 3']
 
-    post = Post(title, username, date, rating, image, short_description, ingredients, equipment, steps)
+    post = Post(title, username, date, rating, image, short_description, ingredients, equipment, steps,id)
 
     return render_template("post.html",post=post)
 
