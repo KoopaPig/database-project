@@ -1,5 +1,5 @@
 from flask import Flask, request,render_template
-import requests
+#import requests
 import os
 from flask_mysqldb import MySQL
 
