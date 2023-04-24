@@ -8,6 +8,18 @@ create table UserProfile(
 	primary key (User_ID)
 
 );
+create table Post(
+
+	Post_ID char(20) not null,
+	Title varchar(40) not null,
+	Description varchar(200) not null,
+	Images blob not null,
+	Posted_On date not null,
+	User_ID char(20) not null,
+	primary key (Post_ID),
+	foreign key (User_ID) references UserProfile(User_ID),
+
+);
 create table SavedRecipe(
 
 	Post_ID char(20) not null,
@@ -34,27 +46,15 @@ create table PostEquipment(
 	foreign key (Post_ID) references Post(Post_ID)
     
 );
-create table Post(
 
-	Post_ID char(20) not null,
-	Title varchar(20) not null,
-	Description varchar(200) not null,
-	Images blob not null,
-	Posted_On date not null,
-	User_ID char(20) not null,
-	Step_Num int(2) not null,
-	primary key (Post_ID),
-	foreign key (User_ID) references UserProfile(User_ID),
-	foreign key (Step_Num) references Instructions(Step_Num)
-
-);
 create table Instructions(
 
-    Post_ID char(20) Not NULL, --To reference the post table
-	Step_Num int(2) not null, --To hold the step number
+    Instruction_ID char(20) Not null,
+    Post_ID char(20) Not NULL,
+	Step_Num int(2) not null,
 	Step_Description varchar(200),
-	primary key (Post_ID, Step_Num),
-    FOREIGN KEY (Post_ID) REFERENCES Post(Post_ID),
+	primary key (Instruction_ID),
+    FOREIGN KEY (Post_ID) REFERENCES Post(Post_ID)
 
 );
 create table Food(
@@ -214,7 +214,7 @@ create table Allergy(
 
 --Home Page
     --Shows recipes according to style
-        SELECT * FROM Posts ORDER BY Description;
+        SELECT * FROM Post ORDER BY Description;
 
 --Add Recipe
     --update Post
