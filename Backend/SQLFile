@@ -57,7 +57,6 @@ create table Instructions(
     PRIMARY KEY (Step_Num),	
     FOREIGN KEY (Post_ID) REFERENCES Post(Post_ID),
 
-    
 );
 create table Food(
 
