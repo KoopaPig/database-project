@@ -36,7 +36,7 @@
 
     /*box shadows*/
     --box-shadow-sm: 0 .125rem .25rem rgba(var(--darkGreen), .075);
-    --box-shadow-lg: 0 1rem 3rem rgba(var(--darkGreen), .200);
+    --box-shadow-lg: 10px 10px 5px rgba(var(--darkGreen), .200);
 }
 
 html {
@@ -146,15 +146,19 @@ p {
     transform: translateY(5rem);
 }
 
-.profile-name {
-    color: var(--whiteColor);
-    text-align: center;
-}
 .profile-bg {
     background-color: var(--darkMedGreen);
 }
 
+.profile-name {
+    color: var(--whiteColor);
+    text-align: center;
+}
 
+.bio-card {
+    background-color: var(--whiteColor);
+    box-shadow: var(--box-shadow-lg);
+}
 
 
 
