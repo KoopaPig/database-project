@@ -216,5 +216,68 @@ create table Allergy(
 
 --Add Recipe
     --update Post
-        Add to Post values(“Post_ID”,”Title”,”Description”,Image, MM/DD/YYYY, “User_ID”,Step_Num);
+        INSERT to Post values(“Post_ID”,”Title”,”Description”,Image, MM/DD/YYYY, “User_ID”,Step_Num);
 
+--search Function
+    --Food
+        --Distinct
+        CREATE function SearchDistinctFood(Food_Input)
+        RETURNS varchar(30)
+        BEGIN
+        SELECT * FROM Post NATURAL JOIN Ingredients NATURAL JOIN Food WHERE Distinct_Food = Food_Input;
+        RETURN DISTINCT_Food
+        END
+
+        --Non-Distinct 
+        CREATE Function SearchNonDistinctFood(Food_input)
+        RETURNS varchar(30)
+        BEGIN
+        SELECT * FROM Post NATURAL JOIN Ingredients NATURAL JOIN Food WHERE Distinct_Food != Food_Input;
+        RETURN DISTINCT_Food
+        END
+    --rating
+        --Ascending
+        Select * from Post natural join Rated ORDER BY Rating Asc
+
+        --descending
+        Select * from Post natural join rated OrderBy Rating Desc
+
+    --Alphebatical Title
+        --Ascending
+        Select * from Post OrderBy Title Asc
+
+        --Descending
+        Select * from Post OrderBy Title Desc
+
+--Num of Steps
+    --Ascending
+        Select * from Post natural join Instructions Orderby Count(Step_Num) Asc;
+    --specific
+        Select * from Post natural join Instructions where Step_Num = input;
+    --descending
+        Select * From Post NATURAL JOIN Instructions Order by Count(Step_Num) Desc;
+
+--equipment
+    --Used
+        Select * from Post natural join post_equipment where Equipment = input;
+    --Not Used
+        Select * from Post natural join post_equipment where Equipment not input;
+
+--Views 
+--User Profile 
+    Create view user_profile as
+	Select post.post_ID, post.Title, post.description, post.images, post.posted_on, userprofile.display_name
+	From userprofile
+	Left join post on user_id
+	Where user_id = user;
+
+--Post page:
+
+	Create view post_page as
+	Select post.post_id,post.title,post.description,post.images,post.posted_on,post.user_id,instruction.step_num,instruction.step_description,postequipment.equipment,food.distinctfood,ingredients.amount,ingredients.unit
+	From post
+	Join instructions on post.step_num = instructions.step_num
+	Join postequipment on post.post_id = postequipment.post_id
+	Join ingredients on post.post_id = ingredients.post_id
+	Join food on ingredients.tag = food.tag
+	Where post_id = post
