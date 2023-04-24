@@ -1,0 +1,283 @@
+create table UserProfile(
+
+	User_ID char(20) not null,
+	Display_Name varchar(30) not null,
+	Bio varchar(200) not null,
+	Password varchar(15) not null,
+	Email varchar(100) not null,
+	primary key (User_ID)
+
+);
+create table SavedRecipe(
+
+	Post_ID char(20) not null,
+	User_ID char(20) not null,
+	foreign key (Post_ID) references Post(Post_ID),
+	foreign key (User_ID) references UserProfile(User_ID)
+
+);
+create table Rated(
+
+	Post_ID char(20) not null,
+	User_ID char(20) not null,
+	Rating int(1) not null,
+	Comment varchar(200) not null,
+	foreign key (Post_ID) references Post(Post_ID),
+	Foreign key (User_ID) references UserProfile(User_ID)
+
+);
+create table PostEquipment(
+    
+	Equipment varchar(30) not null,
+	Post_ID char(20) not null,
+	primary key (Equipment),
+	foreign key (Post_ID) references Post(Post_ID)
+    
+);
+create table Post(
+
+	Post_ID char(20) not null,
+	Title varchar(20) not null,
+	Description varchar(200) not null,
+	Images blob not null,
+	Posted_On date not null,
+	User_ID char(20) not null,
+	Step_Num int(2) not null,
+	primary key (Post_ID),
+	foreign key (User_ID) references UserProfile(User_ID),
+	foreign key (Step_Num) references Instructions(Step_Num)
+
+);
+create table Instructions(
+    
+	Step_Num int(2) not null,
+	Step_Description varchar(200),
+	primary key (Step_Num),	
+    
+);
+create table Food(
+
+	Tag char(20) not null,
+	Distinct_Food varchar(30) not null,
+	Category varchar(20) not null,
+	Nutritional_Info varchar(200) not null,
+	primary key (Tag)
+
+);
+create table Allergy(
+
+	Tag char(20) not null,
+	User_ID char(20) not null,
+	foreign key (Tag) references Food(Tag),
+	foreign key (User_ID) references UserProfile(User_ID)
+
+);
+
+--Login:
+    --Existing Account
+    CREATE FUNCTION ExistingAccount(username_or_email VARCHAR(255), password VARCHAR(255))
+    RETURNS BOOLEAN
+    BEGIN
+    DECLARE user_id INT;
+    DECLARE exists BOOLEAN;
+
+    -- Check if username_or_email and password match in the database
+    SELECT id INTO user_id FROM UserProfile WHERE (Display_name = username_or_email OR Email = username_or_email) AND Password = Password;
+
+    -- If user_id is not null, then the user exists
+    IF user_id IS NOT NULL THEN
+        SET exists = TRUE;
+    ELSE
+        SET exists = FALSE;
+    END IF;
+
+    RETURN exists;
+    END$$
+
+    --New User
+    CREATE FUNCTION insert_new_user(username VARCHAR(255), email VARCHAR(255), password VARCHAR(255))
+    RETURNS INT
+    BEGIN
+    DECLARE new_user_id INT;
+
+    -- Insert new user into the users table
+    INSERT INTO UserProfile (Display_Name, Email, Password) VALUES (username, email, password);
+
+    -- Get the ID of the newly inserted user
+    SET new_user_id = LAST_INSERT_ID();
+
+    RETURN new_user_id;
+    END$$
+
+--User Settings:
+    --Modifying
+        --Display Name
+        CREATE FUNCTION update_user_display_name(user_id INT, display_name VARCHAR(255))
+        RETURNS BOOLEAN
+        BEGIN
+        DECLARE updated BOOLEAN;
+
+        -- Update user's display name in the users table
+        UPDATE UserProfile SET Display_Name = Display_Name WHERE User_ID = user_id;
+
+        -- Check if the update was successful
+        IF ROW_COUNT() > 0 THEN
+            SET updated = TRUE;
+        ELSE
+           SET updated = FALSE;
+        END IF;
+
+        RETURN updated;
+        END$$
+
+    --Password
+        CREATE FUNCTION update_user_password(user_id INT, password VARCHAR(255))
+        RETURNS BOOLEAN
+        BEGIN
+        DECLARE updated BOOLEAN;
+
+        -- Update user's password in the users table
+        UPDATE UserProfile SET Password = password WHERE User_ID = user_id;
+
+        -- Check if the update was successful
+        IF ROW_COUNT() > 0 THEN
+            SET updated = TRUE;
+        ELSE
+            SET updated = FALSE;
+        END IF;
+
+        RETURN updated;
+        END$$
+
+    --delete
+        CREATE FUNCTION delete_user(user_id INT)
+        RETURNS BOOLEAN
+        BEGIN
+        DECLARE deleted BOOLEAN;
+        -- Delete user from the users table
+        DELETE FROM UserProfile WHERE User_ID = user_id;
+        -- Check if the deletion was successful
+        IF ROW_COUNT() > 0 THEN
+           SET deleted = TRUE;
+        ELSE
+            SET deleted = FALSE;
+        END IF;
+        RETURN deleted;
+        END$$
+
+--Public User Page
+    --Profile Name
+        CREATE FUNCTION GetDisplayName(User_ID INT)
+        Returns varchar(30)
+        BEGIN
+        Declare Display_Name varchar(30);
+
+        SELECT Display_Name from UserProfile WHERE User_ID = User_ID;
+        RETURN Display_Name;
+        END$$
+    
+    --Get Associated Posts
+        CREATE FUNCTION getPosts(user_id INT)
+        RETURNS TABLE (title VARCHAR(255))
+        BEGIN
+            -- Declare a cursor to fetch the titles and ratings from the joined tables
+            DECLARE cur CURSOR FOR
+                SELECT p.title
+                FROM Post p
+                INNER JOIN Rated r ON p.post_id = r.post_id
+                WHERE p.user_id = user_id
+                ORDER BY r.rating DESC;
+            -- Declare variables to store fetched values
+            DECLARE @title VARCHAR(255);
+            -- Create a temporary table to store the results
+            CREATE TEMPORARY TABLE IF NOT EXISTS temp_titles (title VARCHAR(255));
+            -- Fetch and insert titles into the temporary table
+            OPEN cur;
+            FETCH cur INTO @title;
+            WHILE @@FETCH_STATUS = 0 DO
+            INSERT INTO temp_titles (title) VALUES (@title);
+            FETCH cur INTO @title;
+            END WHILE;
+            CLOSE cur;
+
+            -- Return the titles from the temporary table
+            SELECT title FROM temp_titles;
+
+            -- Drop the temporary table
+            DROP TEMPORARY TABLE IF EXISTS temp_titles;
+        END$$
+
+    --Associated Reviews
+        Select Rating FROM Rated WHERE User_ID = <User_ID> ORDER BY Rating DESC;
+
+--Home Page
+    --Shows recipes according to style
+        SELECT * FROM Posts ORDER BY Description;
+
+--Add Recipe
+    --update Post
+        INSERT to Post values(“Post_ID”,”Title”,”Description”,Image, MM/DD/YYYY, “User_ID”,Step_Num);
+
+--search Function
+    --Food
+        --Distinct
+        CREATE function SearchDistinctFood(Food_Input)
+        RETURNS varchar(30)
+        BEGIN
+        SELECT * FROM Post NATURAL JOIN Ingredients NATURAL JOIN Food WHERE Distinct_Food = Food_Input;
+        RETURN DISTINCT_Food
+        END
+
+        --Non-Distinct 
+        CREATE Function SearchNonDistinctFood(Food_input)
+        RETURNS varchar(30)
+        BEGIN
+        SELECT * FROM Post NATURAL JOIN Ingredients NATURAL JOIN Food WHERE Distinct_Food != Food_Input;
+        RETURN DISTINCT_Food
+        END
+    --rating
+        --Ascending
+        Select * from Post natural join Rated ORDER BY Rating Asc
+
+        --descending
+        Select * from Post natural join rated OrderBy Rating Desc
+
+    --Alphebatical Title
+        --Ascending
+        Select * from Post OrderBy Title Asc
+
+        --Descending
+        Select * from Post OrderBy Title Desc
+
+--Num of Steps
+    --Ascending
+        Select * from Post natural join Instructions Orderby Count(Step_Num) Asc;
+    --specific
+        Select * from Post natural join Instructions where Step_Num = input;
+    --descending
+        Select * From Post NATURAL JOIN Instructions Order by Count(Step_Num) Desc;
+
+--equipment
+    --Used
+        Select * from Post natural join post_equipment where Equipment = input;
+    --Not Used
+        Select * from Post natural join post_equipment where Equipment not input;
+
+--Views 
+--User Profile 
+    Create view user_profile as
+	Select post.post_ID, post.Title, post.description, post.images, post.posted_on, userprofile.display_name
+	From userprofile
+	Left join post on user_id
+	Where user_id = user;
+
+--Post page:
+
+	Create view post_page as
+	Select post.post_id,post.title,post.description,post.images,post.posted_on,post.user_id,instruction.step_num,instruction.step_description,postequipment.equipment,food.distinctfood,ingredients.amount,ingredients.unit
+	From post
+	Join instructions on post.step_num = instructions.step_num
+	Join postequipment on post.post_id = postequipment.post_id
+	Join ingredients on post.post_id = ingredients.post_id
+	Join food on ingredients.tag = food.tag
+	Where post_id = post
