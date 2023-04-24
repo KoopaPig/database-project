@@ -48,7 +48,7 @@ def test():
 @app.route("/")
 @app.route("/home")
 def home():
-    id=random.random
+    id=random.random()*1000
     title = 'My Awesome Post'
     username = 'johndoe'
     date = '2022-05-01'
@@ -60,7 +60,7 @@ def home():
     steps = ['Step 1', 'Step 2', 'Step 3']
 
     post = Post(title, username, date, rating, image, short_description, ingredients, equipment, steps,id)
-    posts=[post].rep
+    posts=[post,post]
     return render_template("index.html",posts=posts)
 
 #Account directories --------------------------------------------------------

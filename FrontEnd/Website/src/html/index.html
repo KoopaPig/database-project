@@ -69,13 +69,13 @@
       <div class="col">
         <a href="/post/{{posts[0].id}}">
           <div class="card recipeCard start-50 rounded" style="width: 18rem;">
-            <img src="https://www.pngarts.com/files/10/Default-Profile-Picture-PNG-Download-Image.png"
+            <img src="{{posts[0].image}}"
               class="card-img-top" alt="default_image">
             <div class="card-body">
-              <p>Recipe Name</p>
+              <p>{{posts[0].title}}</p>
               <!-- <p class="short-desc">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-              <p >Rating would go here</p>
-              <a class="nav-link" href="/account">Username</a>
+              <p >{{posts[0].rating}}</p>
+              <a class="nav-link" href="/account?{{posts[0].username}}">{{posts[0].username}}</a>
             </div>
           </div>
         </a>
