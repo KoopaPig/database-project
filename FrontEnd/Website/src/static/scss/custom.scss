@@ -1,0 +1,58 @@
+@import "/node_modules/bootstrap/scss/bootstrap";
+
+////////////Color Palette////////////
+$blackColor: #000000;
+$darkGray: #6d5e68;
+$darkMedGray: #938285;
+$medGray: #b2a5a4;
+$lightMedGray: #ddd6d3;
+$whiteColor: #f8f5f5;
+    
+$darkGreen: #524f7a;
+$darkMedGreen: #57757c;
+$medGreen: #6ea080;
+$lightMedGreen: #97c187;
+$lightGreen: #d1e0a9;
+$lightLightGreen: #f3f9cf;
+
+$darkRed: #773e5b;
+$darkMedRed: #a83d3d;
+$medRed: #d35454;
+$lightMedRed: #e28383;
+$lightRed: #f4b6ab;
+
+//box shadows
+$box-shadow-sm: 0 .125rem .25rem rgba($darkGreen, .075);
+$box-shadow-lg: 0 1rem 3rem rgba($darkGreen, .200);
+
+//font families
+$font-family-sans-serif: 'Nunito', sans-serif;
+
+
+////////////Home Page////////////
+.mainNavbar {
+    background-color: $lightLightGreen;
+    font-family: $font-family-sans-serif;
+    box-shadow: $box-shadow-lg;
+}
+
+.siteTitle {
+    font-size: large;
+}
+
+.navbarContent {
+    font-size: medium;
+}
+
+
+.recipeCard {
+    padding: 0.5rem;
+    box-shadow: $box-shadow-sm;
+}
+
+
+////////////Login Page////////////
+.signInButton {
+    background-color: $medGreen;
+    border-color: transparent;
+}
