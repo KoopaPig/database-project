@@ -235,20 +235,12 @@ create table Ingredients(
 --search Function
     --Food
         --Distinct
-        CREATE function SearchDistinctFood(Food_Input)
-        RETURNS varchar(30)
-        BEGIN
-        SELECT * FROM Post NATURAL JOIN Ingredients NATURAL JOIN Food WHERE Distinct_Food = Food_Input;
-        RETURN DISTINCT_Food
-        END
+        Select post_id, title, description, images, posted_on from Post natural join Ingredients natural join Food where Distinct_Food=input
+
 
         --Non-Distinct 
-        CREATE Function SearchNonDistinctFood(Food_input)
-        RETURNS varchar(30)
-        BEGIN
-        SELECT * FROM Post NATURAL JOIN Ingredients NATURAL JOIN Food WHERE Distinct_Food != Food_Input;
-        RETURN DISTINCT_Food
-        END
+        Select post_id, title, description, images, posted_on from Post natural join ingredients natural join food where Distinct_Food != input
+
     --rating
         --Ascending
         Select * from Post natural join Rated ORDER BY Rating Asc
