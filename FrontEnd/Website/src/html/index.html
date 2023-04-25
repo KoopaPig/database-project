@@ -18,12 +18,20 @@
     crossorigin="anonymous"></script>
   <script type="module" src="../static/js/main.js"></script>
 </head>
+<script> 
+  function buttonNext() {
+    
+  };
+  function buttonPrev() {
 
+  };
+
+</script>
 
 <body class="ms-4 me-4">
-
+  
+  <!--==============================Main Navbar=================================-->
   <div class="container">
-    <!--==============================main navbar=================================-->
     <nav class="navbar mainNavbar navbar-expand-lg">
       <div class="container-fluid">
         <a class="navbar-brand" href="/home">
@@ -84,8 +92,8 @@
   <!-- implement page buttons -->
   <div class="container-fluid">
     <div class="d-flex justify-content-around align-items-center mt-4 mb-4">
-      <button class="btn button-prev">Prev</button>
-      <button class="btn button-next">Next</button>
+      <button class="btn button-prev" onclick="buttonPrev()">Prev</button>
+      <button class="btn button-next" onclick="buttonNext()">Next</button>
     </div>
   </div>
 
