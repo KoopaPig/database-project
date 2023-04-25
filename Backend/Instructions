@@ -1,7 +1,7 @@
 create table Instructions(
-    
+    	
 	Step_Num int(2) not null,
 	Step_Description varchar(200),
-	primary key (Step_Num),	
-    
+	FOREIGN KEY (Post_ID) REFERENCES Post(Post_ID)
+	primary key (Step_Num,Post_ID)
 );

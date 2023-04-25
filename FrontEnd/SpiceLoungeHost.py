@@ -1,5 +1,5 @@
 from flask import Flask, request,render_template
-import requests
+#import requests
 import os
 import random
 from flask_mysqldb import MySQL
@@ -50,7 +50,7 @@ def test():
     res=cursor.fetchone()[0]
 
     if res>0:
-        return render_template("success.html")
+        return render_template("login-success.html")
     else:
         return "Failed Login"
     
@@ -117,6 +117,11 @@ def createAccount():
 def settings():
     return render_template("login.html")
 
+# Temp route to test various pages
+@app.route("/temp")
+def temp():
+    return render_template("post-create-success.html")
+
 #End of Account Directories -------------------------------------------------
 
 #Posts ----------------------------------------------------------------------
@@ -148,7 +153,7 @@ def createPost():
 # Post submission form here, may toss on different server
 @app.route("/post/create/submission")
 def submissionStatus():
-    return render_template("login.html")
+    return render_template("post-create-success.html")
 
 #End of posts ---------------------------------------------------------------
 #Search ---------------------------------------------------------------------
