@@ -2,8 +2,6 @@
     define amount of cards per page 
     'prev'/'next' buttons
 -->
-
-
 <!doctype html>
 <html lang="en">
 
@@ -17,20 +15,19 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
   <script type="module" src="../static/js/main.js"></script>
-</head>
-<script> 
-  function buttonNext() {
+    <script> 
+      function buttonNext() {
+        
+      };
+      function buttonPrev() {
     
-  };
-  function buttonPrev() {
-
-  };
-
-</script>
+      };
+    
+    </script>
+</head>
 
 <body class="ms-4 me-4">
-  
-  <!--==============================Main Navbar=================================-->
+  <!--==============================Main Navbar=================================-->  
   <div class="container">
     <nav class="navbar mainNavbar navbar-expand-lg">
       <div class="container-fluid">
@@ -72,7 +69,7 @@
     </nav>
   </div>
 
-
+  <!--==============================HomeGrid=================================-->  
   <div class="wrapper homeGrid mt-5">
     {% for item in posts %}       
     <div class="card recipeCard rounded" style="width: 18rem;">    
@@ -87,8 +84,8 @@
       </a>
     </div>
     {% endfor %}
-
   </div>
+  
   <!-- implement page buttons -->
   <div class="container-fluid">
     <div class="d-flex justify-content-around align-items-center mt-4 mb-4">

@@ -47,10 +47,15 @@
           // Check if all required fields are filled
           if (form.checkValidity() === false) {
             // Handle invalid form
-            alert('Please fill out all required fields');
+            alert('Please fill out all required fields.');
             return;
           }
-          //don't know how to pass the actual data
+          
+          // Send POST request to server using fetch
+          fetch('/post/create/submission', {
+            method: 'POST',
+            body: formData
+          })
 
         };
 
@@ -60,7 +65,7 @@
 </head>
 
 <body class="ms-4 me-4">
-  
+
   <!--==============================Main Navbar=================================-->  
   <div class="container">
     <nav class="navbar mainNavbar navbar-expand-lg">

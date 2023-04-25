@@ -40,7 +40,7 @@ def test():
     res=cursor.fetchone()[0]
 
     if res>0:
-        return render_template("success.html")
+        return render_template("login-success.html")
     else:
         return "Failed Login"
     
@@ -99,7 +99,7 @@ def settings():
 # Temp route to test various pages
 @app.route("/temp")
 def temp():
-    return render_template("user-profile.html")
+    return render_template("post-create-success.html")
 
 #End of Account Directories -------------------------------------------------
 
@@ -129,7 +129,7 @@ def createPost():
 # Post submission form here, may toss on different server
 @app.route("/post/create/submission")
 def submissionStatus():
-    return render_template("login.html")
+    return render_template("post-create-success.html")
 
 #End of posts ---------------------------------------------------------------
 #Search ---------------------------------------------------------------------
