@@ -99,7 +99,7 @@ def settings():
 # Temp route to test various pages
 @app.route("/temp")
 def temp():
-    return render_template("user-settings.html")
+    return render_template("user-profile.html")
 
 #End of Account Directories -------------------------------------------------
 
