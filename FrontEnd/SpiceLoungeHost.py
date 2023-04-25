@@ -4,6 +4,7 @@ import os
 import random
 from flask_mysqldb import MySQL
 from decimal import Decimal
+import base64
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 template_dir = os.path.join(dir_path, "Website/src/html")
@@ -17,8 +18,60 @@ app.config['MYSQL_DB']='spicelounge2'
 
 mysql=MySQL(app)
 
+class Ingredient:
+    def __init__(self):
+        self.name=None
+        self.amount=None
+        self.nutrition=None
+        self.unit=None
+    def loadIngredientFromQuery(self,ingredientArray):
+        self.name=ingredientArray[2]
+        self.amount=ingredientArray[0]
+        self.nutrition=ingredientArray[3]
+        self.unit=ingredientArray[1]
+class Instruction:
+    def __init__(self):
+        self.stepNum=None
+        self.instruction=None
+    def loadFromQueryResult(self,instruction):
+        self.stepNum=instruction[0]
+        self.instruction=instruction[1]
 class Post:
     def __init__(self):
+        self.title = None
+        self.username = None
+        self.date = None
+        self.rating = None
+        self.image = None
+        self.short_description = None
+        self.ingredients = []
+        self.equipment = []
+        self.steps = []
+        self.id=None
+        self.userid=None
+    def loadRow(self,queryRow):
+        self.id=queryRow[0]
+        self.title=queryRow[1]
+        self.short_description=queryRow[2]
+        self.image=base64.b64encode(queryRow[3]).decode('utf-8')
+
+        #This will be a datetime obj
+        self.date=str(queryRow[4])
+        self.userid=queryRow[5]
+        self.username=queryRow[6]
+    def loadIngredients(self,ingredientsResult):
+        for ingredient in ingredientsResult:
+            tmp=Ingredient()
+            tmp.loadIngredientFromQuery(ingredient)
+            self.ingredients.append(tmp)
+    def loadInstructions(self,instructionResults):
+        for instruction in instructionResults:
+            tmp=Instruction()
+            tmp.loadFromQueryResult(instruction)
+            self.steps.append(tmp)
+
+    
+    def loadFullPost(self,queryResults):
         self.title = None
         self.username = None
         self.date = None
@@ -30,15 +83,6 @@ class Post:
         self.steps = None
         self.id=None
         self.userid=None
-    def loadRow(self,queryRow):
-        self.id=queryRow[0]
-        self.title=queryRow[1]
-        self.short_description=queryRow[2]
-        self.image=queryRow[3]
-        #This will be a datetime obj
-        self.date=queryRow[4].strftime('%Y-%m-%d')
-        self.userid=queryRow[5]
-        self.username=queryRow[6]
 
 @app.route("/validate")
 def test():
@@ -133,21 +177,27 @@ def temp():
 @app.route("/post/<id>")
 def viewPost(id):
     #SQL Query For Getting a Post by ID
+    cursor=mysql.connection.cursor()
+    cursor.execute(''' SELECT Post_ID,Title,Description,Images,Posted_On,User_ID,display_name FROM post NATURAL JOIN userprofile where post_id=%s; ''',(id,))
+    mysql.connection.commit()
+    res=cursor.fetchone()
+    posttmp=Post()
+    posttmp.loadRow(res)
+    cursor.execute(''' select Step_Num,Step_Description from instructions where Post_ID=%s; ''',(id,))
+    mysql.connection.commit()
+    res=cursor.fetchall()
+    posttmp.loadInstructions(res)
+    cursor.execute(''' SELECT Amount, Unit, distinct_food,food.Nutritional_Info FROM ingredients NATURAL join food where Post_ID=%s; ''',(id,))
+    mysql.connection.commit()
+    res=cursor.fetchall()
+    posttmp.loadIngredients(res)
+    cursor.execute(''' SELECT AVG(rating) FROM rated where Post_ID=%s; ''',(posttmp.id,))
+    mysql.connection.commit()
+    res2=cursor.fetchone()[0]
+    posttmp.rating=str(res2)[:3]
+    
 
-
-    title = 'My Awesome Post'
-    username = 'johndoe'
-    date = '2022-05-01'
-    rating = 4.5
-    image = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80'
-    short_description = 'This is a short description of my post'
-    ingredients = ['Ingredient 1', 'Ingredient 2', 'Ingredient 3']
-    equipment = ['Equipment 1', 'Equipment 2', 'Equipment 3']
-    steps = ['Step 1', 'Step 2', 'Step 3']
-
-    post = Post(title, username, date, rating, image, short_description, ingredients, equipment, steps,id)
-
-    return render_template("post.html",post=post)
+    return render_template("post.html",post=posttmp)
 
 @app.route("/post/create")
 def createPost():

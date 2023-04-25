@@ -47,7 +47,9 @@
     width:47%;
     background-color: #f4b6ab;
     border-radius: 15px;
-
+  }
+  .listText{
+    font-size: 1.6rem;
   }
   .container-post .list-container {
     display: flex;
