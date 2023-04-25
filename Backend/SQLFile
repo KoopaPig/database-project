@@ -297,3 +297,9 @@ create table Ingredients(
 	Where post_id = post
 
 
+--Trigger
+    CREATE TRIGGER trg_delete_user
+    AFTER DELETE ON UserProfile FOR EACH ROW
+    BEGIN
+        DELETE FROM Post WHERE User_ID = OLD.User_ID;
+    END;
