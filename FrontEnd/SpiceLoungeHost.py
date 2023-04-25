@@ -3,7 +3,7 @@ from flask import Flask, request,render_template
 import os
 import random
 from flask_mysqldb import MySQL
-
+from decimal import Decimal
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 template_dir = os.path.join(dir_path, "Website/src/html")
@@ -13,22 +13,32 @@ app = Flask(__name__,template_folder=template_dir,static_folder=staticDir)
 app.config['MYSQL_HOST']='localhost'
 app.config['MYSQL_USER']='root'
 app.config['MYSQL_PASSWORD']=''
-app.config['MYSQL_DB']='class'
+app.config['MYSQL_DB']='spicelounge2'
 
 mysql=MySQL(app)
 
 class Post:
-    def __init__(self, title, username, date, rating, image, short_description, ingredients, equipment, steps,id):
-        self.title = title
-        self.username = username
-        self.date = date
-        self.rating = rating
-        self.image = image
-        self.short_description = short_description
-        self.ingredients = ingredients
-        self.equipment = equipment
-        self.steps = steps
-        self.id=id
+    def __init__(self):
+        self.title = None
+        self.username = None
+        self.date = None
+        self.rating = None
+        self.image = None
+        self.short_description = None
+        self.ingredients = None
+        self.equipment = None
+        self.steps = None
+        self.id=None
+        self.userid=None
+    def loadRow(self,queryRow):
+        self.id=queryRow[0]
+        self.title=queryRow[1]
+        self.short_description=queryRow[2]
+        self.image=queryRow[3]
+        #This will be a datetime obj
+        self.date=queryRow[4].strftime('%Y-%m-%d')
+        self.userid=queryRow[5]
+        self.username=queryRow[6]
 
 @app.route("/validate")
 def test():
@@ -40,7 +50,7 @@ def test():
     res=cursor.fetchone()[0]
 
     if res>0:
-        return render_template("success.html")
+        return render_template("login-success.html")
     else:
         return "Failed Login"
     
@@ -48,19 +58,33 @@ def test():
 @app.route("/")
 @app.route("/home")
 def home():
-    id=random.random()*1000
-    title = 'My Awesome Post'
-    username = 'johndoe'
-    date = '2022-05-01'
-    rating = 4.5
-    image = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80'
-    short_description = 'This is a short description of my post'
-    ingredients = ['Ingredient 1', 'Ingredient 2', 'Ingredient 3']
-    equipment = ['Equipment 1', 'Equipment 2', 'Equipment 3']
-    steps = ['Step 1', 'Step 2', 'Step 3']
+    cursor=mysql.connection.cursor()
+    cursor.execute(''' SELECT * FROM recent_posts_view_with_displayname; ''')
+    mysql.connection.commit()
+    res=cursor.fetchall()
+    posts=[]
+    for post in res:
+        posttmp=Post()
+        posttmp.loadRow(post)
+        cursor.execute(''' SELECT AVG(rating) FROM rated where Post_ID=%s; ''',(posttmp.id,))
+        mysql.connection.commit()
+        res2=cursor.fetchone()[0]
+        
+        posttmp.rating=str(res2)[:3]
+        if posttmp.rating=="Non":
+            posttmp.rating="N/A"
+        posts.append(posttmp)
+        # id=random.random()*1000
+        # title = 'My Awesome Post'
+        # username = 'johndoe'
+        # date = '2022-05-01'
+        # rating = 4.5
+        # image = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80'
+        # short_description = 'This is a short description of my post'
+        # ingredients = ['Ingredient 1', 'Ingredient 2', 'Ingredient 3']
+        # equipment = ['Equipment 1', 'Equipment 2', 'Equipment 3']
+        # steps = ['Step 1', 'Step 2', 'Step 3']
 
-    post = Post(title, username, date, rating, image, short_description, ingredients, equipment, steps,id)
-    posts=[post,post]
     return render_template("index.html",posts=posts)
 
 #Account directories --------------------------------------------------------
@@ -99,7 +123,7 @@ def settings():
 # Temp route to test various pages
 @app.route("/temp")
 def temp():
-    return render_template("user-profile.html")
+    return render_template("post-create-success.html")
 
 #End of Account Directories -------------------------------------------------
 
@@ -108,6 +132,9 @@ def temp():
 
 @app.route("/post/<id>")
 def viewPost(id):
+    #SQL Query For Getting a Post by ID
+
+
     title = 'My Awesome Post'
     username = 'johndoe'
     date = '2022-05-01'
@@ -129,7 +156,7 @@ def createPost():
 # Post submission form here, may toss on different server
 @app.route("/post/create/submission")
 def submissionStatus():
-    return render_template("login.html")
+    return render_template("post-create-success.html")
 
 #End of posts ---------------------------------------------------------------
 #Search ---------------------------------------------------------------------

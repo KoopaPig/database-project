@@ -1,5 +1,6 @@
-<!-- This is a sample address form, will transform into recipe submit form -->
-
+<!-- TO DO: 
+    Finish ability to submit recipe
+-->
 
 <!doctype html>
 <html lang="en">
@@ -15,6 +16,7 @@
     crossorigin="anonymous"></script>
   <script type="module" src="../js/main.js"></script>
 
+  <!----------Add steps function---------->
   <script>
     function addElement() {
       var list = document.getElementById("list");
@@ -34,15 +36,42 @@
       list.innerHTML = "";
     }
   </script>
+
+  <!----------Submit recipe function---------->
+  <script>
+        function submitRecipe() {
+          
+          const form = document.getElementById('myForm');
+          const formData = new FormData(form);
+
+          // Check if all required fields are filled
+          if (form.checkValidity() === false) {
+            // Handle invalid form
+            alert('Please fill out all required fields.');
+            return;
+          }
+          
+          // Send POST request to server using fetch
+          fetch('/post/create/submission', {
+            method: 'POST',
+            body: formData
+          })
+
+        };
+
+
+
+  </script>
 </head>
 
-<body>
+<body class="ms-4 me-4">
+
+  <!--==============================Main Navbar=================================-->  
   <div class="container">
-    <!--==============================main navbar=================================-->  
     <nav class="navbar mainNavbar navbar-expand-lg">
           <div class="container-fluid">
               <a class="navbar-brand" href="/home">
-                  <img src="../../assets/recex-logo.svg" alt="Logo" width="40" height="40" class="d-inline-block align-text-middle siteTitle">
+                  <img src="../static/recex-logo.svg" alt="Logo" width="40" height="40" class="d-inline-block align-text-middle siteTitle">
                   Spice Lounge
                 </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
@@ -72,6 +101,8 @@
           </div>
         </nav>
   </div>
+
+  <!--==============================Recipe Submission Form=================================-->  
   <div class="container-fluid">
 
     <div class="container">
@@ -91,59 +122,55 @@
       </div>
 
       <!-- Main content -->
-      <div class="row">
-        <!-- Basic information -->
-        <div class="card mb-4">
-          <div class="card-body">
-            <h3 class="h6 mb-4">Basic information</h3>
-            <div class="row">
-              <div class="mb-3">
-                <label class="form-label">Title</label>
-                <input id="title" type="text" class="form-control">
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Description</label>
-                <textarea id="description" class="form-control" rows="3" maxlength="256"></textarea>
+      <form class="recipeSubmit">
+        <div class="row">
+          <!-- Basic information -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <h3 class="h6 mb-4">Basic information</h3>
+              <div class="row">
+                <div class="mb-3">
+                  <label class="form-label">Title</label>
+                  <input id="title" type="text" class="form-control">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Description</label>
+                  <textarea id="description" class="form-control" rows="3" maxlength="256"></textarea>
+                </div>
               </div>
             </div>
-            <!-- STEPS -->
-
-
-
-
+          </div>
+          <div class="card mb-4">
+            <div class="card-body">
+              <h3 class="h6">Image</h3>
+              <input id="image" class="form-control" type="file">
+              <!-- <script>
+                      const file = this.files[0];
+                      const fileType = file['type'];
+                      const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+                      if (!validImageTypes.includes(fileType)) {
+                          // invalid file type code goes here.
+                      }
+                    </script> -->
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-body">
+              <h3 class="h6">Steps</h3>
+              <ol id="list">
+                <li>
+                  <input type="text">
+                  <button onclick="this.parentNode.parentNode.removeChild(this.parentNode);">Delete</button>
+                </li>
+              </ol>
+              <button onclick="addElement()">Add Element</button>
+              <button onclick="clearList()">Clear All</button>
+            </div>
           </div>
         </div>
-        <div class="card mb-4">
-          <div class="card-body">
-            <h3 class="h6">Image</h3>
-            <input id="image" class="form-control" type="file">
-            <!-- <script>
-                    const file = this.files[0];
-                    const fileType = file['type'];
-                    const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
-                    if (!validImageTypes.includes(fileType)) {
-                        // invalid file type code goes here.
-                    }
-                  </script> -->
-          </div>
-        </div>
-        <div class="card mb-4">
-          <div class="card-body">
-            <h3 class="h6">Steps</h3>
-            <ol id="list">
-              <li>
-                <input type="text">
-                <button onclick="this.parentNode.parentNode.removeChild(this.parentNode);">Delete</button>
-              </li>
-            </ol>
-            <button onclick="addElement()">Add Element</button>
-            <button onclick="clearList()">Clear All</button>
-          </div>
-        </div>
-      </div>
+      </form>
+
     </div>
-
-  </div>
   </div>
 </body>
 
