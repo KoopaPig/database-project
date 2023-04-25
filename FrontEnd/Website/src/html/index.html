@@ -73,13 +73,13 @@
   <div class="wrapper homeGrid mt-5">
     {% for item in posts %}       
     <div class="card recipeCard rounded" style="width: 18rem;">    
-      <a href="/post/{{posts[0].id}}">
-        <img src="{{posts[0].image}}"
+      <a href="/post/{{item.id}}">
+        <img src="{{item.image}}"
           class="card-img-top" alt="default_image">
         <div class="card-body">
-          <p>{{posts[0].title}}</p>
-          <p>{{posts[0].rating}}</p>
-          <a class="nav-link" href="/account?{{posts[0].username}}">{{posts[0].username}}</a>
+          <p>{{item.title}}</p>
+          <p>{{item.rating}}</p>
+          <a class="nav-link" href="/account?{{item.username}}">{{item.username}}</a>
         </div>
       </a>
     </div>

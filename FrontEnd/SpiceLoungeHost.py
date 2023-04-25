@@ -69,7 +69,10 @@ def home():
         cursor.execute(''' SELECT AVG(rating) FROM rated where Post_ID=%s; ''',(posttmp.id,))
         mysql.connection.commit()
         res2=cursor.fetchone()[0]
+        
         posttmp.rating=str(res2)[:3]
+        if posttmp.rating=="Non":
+            posttmp.rating="N/A"
         posts.append(posttmp)
         # id=random.random()*1000
         # title = 'My Awesome Post'
