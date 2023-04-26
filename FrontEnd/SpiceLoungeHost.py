@@ -1,5 +1,5 @@
-from flask import Flask, request,render_template
-#import requests
+from flask import Flask, request,render_template,redirect
+import requests
 import os
 import random
 from flask_mysqldb import MySQL
@@ -138,7 +138,7 @@ def home():
 def viewAccount():
     # get the username query parameter from the URL
     username = request.args.get("username")
-    return render_template("login.html")
+    return render_template("user-profile.html",username=username, bio="BLAH BLAH BLAH TEST")
 
 # This brings up the edit account for currently signed in user
 @app.route("/account/edit")
@@ -155,9 +155,19 @@ def login():
     return render_template("login.html")
 
 # Brings up account creation page
-@app.route("/account/create")
+@app.route("/account/create",methods=["GET","POST"])
 def createAccount():
-    return render_template("login.html")
+    if request.method == 'POST':
+        print(request.values)
+        email = request.values.get('email')
+        username = request.values.get('username') # Your form's
+        password = request.values.get('password') # input names
+
+        #SQL QUERY TO ADD NEW USER
+        return redirect("/account?username=user1")
+        
+    else:
+        return render_template("createaccount.html")
 
 # Brings up account settings, verified by session ideally
 @app.route("/account/settings")
