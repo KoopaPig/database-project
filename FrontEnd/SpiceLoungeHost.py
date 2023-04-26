@@ -1,4 +1,4 @@
-from flask import Flask, request,render_template,redirect
+from flask import Flask, request,render_template,redirect,jsonify
 import requests
 import os
 import random
@@ -17,6 +17,12 @@ app.config['MYSQL_PASSWORD']=''
 app.config['MYSQL_DB']='spicelounge2'
 
 mysql=MySQL(app)
+
+class User:
+    def __init__(self):
+        self.userId=None
+        self.username="Default User"
+        self.bio="No bio yet..."
 
 class Ingredient:
     def __init__(self):
@@ -138,6 +144,7 @@ def home():
 def viewAccount():
     # get the username query parameter from the URL
     username = request.args.get("username")
+
     return render_template("user-profile.html",username=username, bio="BLAH BLAH BLAH TEST")
 
 # This brings up the edit account for currently signed in user
@@ -163,8 +170,17 @@ def createAccount():
         username = request.values.get('username') # Your form's
         password = request.values.get('password') # input names
 
+        #Verify UserNameNotTaken
+        cursor=mysql.connection.cursor()
+        cursor.execute(''' SELECT count(email) from userprofile where email=%s; ''',(email,))
+        mysql.connection.commit()
+        res=cursor.fetchone()[0]
+        if res!=0:
+            return jsonify({'error': 'Email already in use'}), 409
         #SQL QUERY TO ADD NEW USER
-        return redirect("/account?username=user1")
+        else:
+            
+            return redirect("/account?username=user1")
         
     else:
         return render_template("createaccount.html")
