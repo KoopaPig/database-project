@@ -1,7 +1,8 @@
 INSERT INTO UserProfile (User_ID, Display_Name, Bio, Password, Email)
 VALUES ('user1', 'John Doe', 'I love cooking!', 'mypassword', 'john.doe@example.com'),
        ('user2', 'Jane Smith', 'Food enthusiast', 'myp@ssword', 'jane.smith@example.com'),
-       ('user3', 'Mark Johnson', 'Chef in training', 'password123', 'mark.johnson@example.com'), ('user4', 'Sarah Williams', 'Passionate foodie', 'pass123', 'sarah.williams@example.com'),
+       ('user3', 'Mark Johnson', 'Chef in training', 'password123', 'mark.johnson@example.com'), 
+       ('user4', 'Sarah Williams', 'Passionate foodie', 'pass123', 'sarah.williams@example.com'),
        ('user5', 'Michael Brown', 'Home cook extraordinaire', 'cookingislife', 'michael.brown@example.com'),
        ('user6', 'Emily Davis', 'Food lover and traveler', 'foodie456', 'emily.davis@example.com'),
        ('user7', 'David Lee', 'Culinary adventurer', 'tasteexplorer', 'david.lee@example.com'),

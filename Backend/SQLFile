@@ -293,3 +293,9 @@ create table Ingredients(
     BEGIN
         DELETE FROM Post WHERE User_ID = OLD.User_ID;
     END;
+
+--Index
+    CREATE INDEX idx_post_id_title ON Post(Post_ID, Title);
+
+    CREATE INDEX idx_Instructions_StepNum_PostID ON Instructions (Step_Num, Post_ID);
+
