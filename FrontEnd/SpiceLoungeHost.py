@@ -5,6 +5,7 @@ import random
 from flask_mysqldb import MySQL,MySQLdb
 from decimal import Decimal
 import base64
+from datetime import datetime
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 template_dir = os.path.join(dir_path, "Website/src/html")
@@ -237,8 +238,46 @@ def viewPost(id):
 @app.route("/post/create",methods=["GET","POST"])
 def createPost():
     if request.method == 'POST':
-        print(request.values)
-        print(request.form.getlist('equipment'))
+        success=False
+        randId="post"+str(int(random.random() * 10000000000))
+        title=request.values.get("title")
+        description=request.values.get("description")
+        postedOn=datetime.now()
+        postedOn=postedOn.strftime('%Y-%m-%d')
+        img=request.values.get("image")
+
+        cursor=mysql.connection.cursor()
+        cursor.execute("START TRANSACTION")
+        while not success:
+            try:
+                
+                cursor.execute(''' insert into post value (%s, %s, %s,%s,%s,%s); ''',(randId,title,description,img,postedOn,"user1",))
+                mysql.connection.commit()
+                success=True
+            except MySQLdb.IntegrityError:
+                randId="user"+str(int(random.random() * 10000000000))
+        foods=request.values.getlist('food[][name]')
+        amts=request.values.getlist('food[][amount]')
+        for food in range (foods.__len__()):
+            foodId="food"+str(int(random.random() * 10000000000))
+            
+            cursor.execute(''' insert into food value (%s, %s, %s,%s); ''',(foodId,foods[food],"Meat","USER SUBMITTED IGNORE CATEGORY",))
+            mysql.connection.commit()
+            
+            cursor.execute(''' insert into ingredients value (%s, %s, %s,%s); ''',(foodId,randId,amts[food],""))
+            mysql.connection.commit()
+        equipment=request.values.getlist("equipment[]")
+        for item in equipment:
+            cursor=mysql.connection.cursor()
+            cursor.execute(''' insert into postequipment value (%s, %s); ''',(item,randId,))
+            mysql.connection.commit()
+        steps=request.values.getlist("steps[]")
+        for num in range(steps.__len__()):
+            cursor=mysql.connection.cursor()
+            cursor.execute(''' insert into instructions value (%s, %s, %s); ''',(randId,num,steps[num],))
+            mysql.connection.commit()
+        mysql.connection.commit()
+        cursor.close()
         return render_template("post-create-success.html")
     return render_template("recipe-submit.html")
 
