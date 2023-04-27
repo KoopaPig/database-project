@@ -234,8 +234,12 @@ def viewPost(id):
 
     return render_template("post.html",post=posttmp)
 
-@app.route("/post/create")
+@app.route("/post/create",methods=["GET","POST"])
 def createPost():
+    if request.method == 'POST':
+        print(request.values)
+        print(request.form.getlist('equipment'))
+        return render_template("post-create-success.html")
     return render_template("recipe-submit.html")
 
 # Post submission form here, may toss on different server
