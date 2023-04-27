@@ -180,15 +180,15 @@ def createAccount():
         #SQL QUERY TO ADD NEW USER
         else:
             success=False
-            randId="user"+str(random.random() * 10000000000)
+            randId="user"+str(int(random.random() * 10000000000))
             while not success:
                 try:
                     cursor=mysql.connection.cursor()
-                    cursor.execute(''' insert into userprofile value (%s, %s, %s,%s,%s); ''',("user1",username,"Placeholder bio",password,email,))
+                    cursor.execute(''' insert into userprofile value (%s, %s, %s,%s,%s); ''',(randId,username,"Placeholder bio",password,email,))
                     mysql.connection.commit()
                     success=True
                 except MySQLdb.IntegrityError:
-                    randId=random.random() * 10000000000
+                    randId="user"+str(int(random.random() * 10000000000))
             return redirect("/account?userid="+randId)
         
     else:
