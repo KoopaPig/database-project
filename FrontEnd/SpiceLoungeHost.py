@@ -2,7 +2,7 @@ from flask import Flask, request,render_template,redirect,jsonify
 import requests
 import os
 import random
-from flask_mysqldb import MySQL
+from flask_mysqldb import MySQL,MySQLdb
 from decimal import Decimal
 import base64
 
@@ -20,9 +20,17 @@ mysql=MySQL(app)
 
 class User:
     def __init__(self):
-        self.userId=None
+        self.userid=None
         self.username="Default User"
         self.bio="No bio yet..."
+    def loadFromQuery(self,userid):
+        cursor=mysql.connection.cursor()
+        cursor.execute(''' select display_name,bio From userprofile where user_id=%s; ''',(userid,))
+        mysql.connection.commit()
+        res=cursor.fetchone()
+        self.userid=userid
+        self.username=res[0]
+        self.bio=res[1]
 
 class Ingredient:
     def __init__(self):
@@ -124,17 +132,6 @@ def home():
         if posttmp.rating=="Non":
             posttmp.rating="N/A"
         posts.append(posttmp)
-        # id=random.random()*1000
-        # title = 'My Awesome Post'
-        # username = 'johndoe'
-        # date = '2022-05-01'
-        # rating = 4.5
-        # image = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80'
-        # short_description = 'This is a short description of my post'
-        # ingredients = ['Ingredient 1', 'Ingredient 2', 'Ingredient 3']
-        # equipment = ['Equipment 1', 'Equipment 2', 'Equipment 3']
-        # steps = ['Step 1', 'Step 2', 'Step 3']
-
     return render_template("index.html",posts=posts)
 
 #Account directories --------------------------------------------------------
@@ -142,10 +139,13 @@ def home():
 # This brings up a specific account specified in a query
 @app.route("/account")
 def viewAccount():
-    # get the username query parameter from the URL
-    username = request.args.get("username")
+    try:
+        user=User()
+        user.loadFromQuery(request.args.get("userid"))
+    except MySQLdb.IntegrityError:
+        return "Cuenta no existe :( , o otro error"
 
-    return render_template("user-profile.html",username=username, bio="BLAH BLAH BLAH TEST")
+    return render_template("user-profile.html",user=user)
 
 # This brings up the edit account for currently signed in user
 @app.route("/account/edit")
@@ -179,8 +179,17 @@ def createAccount():
             return jsonify({'error': 'Email already in use'}), 409
         #SQL QUERY TO ADD NEW USER
         else:
-            
-            return redirect("/account?username=user1")
+            success=False
+            randId="user"+str(random.random() * 10000000000)
+            while not success:
+                try:
+                    cursor=mysql.connection.cursor()
+                    cursor.execute(''' insert into userprofile value (%s, %s, %s,%s,%s); ''',("user1",username,"Placeholder bio",password,email,))
+                    mysql.connection.commit()
+                    success=True
+                except MySQLdb.IntegrityError:
+                    randId=random.random() * 10000000000
+            return redirect("/account?userid="+randId)
         
     else:
         return render_template("createaccount.html")
