@@ -16,10 +16,10 @@
     crossorigin="anonymous"></script>
   <script type="module" src="../js/main.js"></script>
 
-  <!----------Add steps function---------->
+  <!----------Add steps, equipment, food functions---------->
   <script>
-    function addElement() {
-      var list = document.getElementById("list");
+    function addElementSteps() {
+      var list = document.getElementById("stepsList");
       var input = document.createElement("input");
       var button = document.createElement("button");
       button.innerHTML = "Delete";
@@ -31,33 +31,117 @@
       item.appendChild(button);
       list.appendChild(item);
     }
-    function clearList() {
-      var list = document.getElementById("list");
+    function clearListSteps() {
+      var list = document.getElementById("stepsList");
+      list.innerHTML = "";
+    }
+
+
+    function addElementEquipment() {
+      var list = document.getElementById("equipmentList");
+      var input = document.createElement("input");
+      var button = document.createElement("button");
+      button.innerHTML = "Delete";
+      button.onclick = function () {
+        list.removeChild(item);
+      };
+      var item = document.createElement("li");
+      item.appendChild(input);
+      item.appendChild(button);
+      list.appendChild(item);
+    }
+    function clearListEquipment() {
+      var list = document.getElementById("equipmentList");
+      list.innerHTML = "";
+    }
+
+
+    function addElementFood() {
+      var list = document.getElementById("foodList");
+      var input = document.createElement("input");
+      var input2 = document.createElement("input");
+      var button = document.createElement("button");
+      button.innerHTML = "Delete";
+      button.onclick = function () {
+        list.removeChild(item);
+      };
+      var item = document.createElement("li");
+      item.appendChild(input);
+      item.appendChild(input2);
+      item.appendChild(button);
+      list.appendChild(item);
+    }
+    function clearListFood() {
+      var list = document.getElementById("foodList");
       list.innerHTML = "";
     }
   </script>
 
   <!----------Submit recipe function---------->
   <script>
-        function submitRecipe() {
-          
-          const form = document.getElementById('myForm');
-          const formData = new FormData(form);
+    function submitRecipe() {
+      const form = document.getElementsByClassName('recipeSubmit');
+      // Check if all required fields are filled
+      if (form.checkValidity() == false) {
+        // Handle invalid form
+        alert('Please fill out all required fields.');
+        return;
+      }
 
-          // Check if all required fields are filled
-          if (form.checkValidity() === false) {
-            // Handle invalid form
-            alert('Please fill out all required fields.');
-            return;
-          }
-          
-          // Send POST request to server using fetch
-          fetch('/post/create/submission', {
-            method: 'POST',
-            body: formData
-          })
+      const formTitle = document.getElementById('title');
+      console.log(formTitle);
+      const formDesc = document.getElementById('description');
+      const formImg = document.getElementById('image');
+      // pass these three
 
-        };
+
+      const formSteps = document.getElementById('stepsList');
+      const inputFieldsSteps = formSteps.querySelectorAll('input');
+      for (let i = 0; i < inputFieldsSteps.length; i++) {
+        const input = inputFieldsSteps[i];
+        // pass all these
+
+
+      }
+
+      const formEquipment = document.getElementById('equipmentList');
+      const inputFieldsEquipment = formEquipment.querySelectorAll('input');
+      for (let i = 0; i < inputFieldsEquipment.length; i++) {
+        const input = inputFieldsEquipment[i];
+        // pass all these
+
+
+      }
+      const formFood = document.getElementById('foodList');
+      const inputFieldsFood = formFood.querySelectorAll('input');
+      for (let i = 0; i < inputFieldsFood.length; i++) {
+        const input = inputFieldsFood[i];
+        // pass all these
+        // remember every even i is an amount, every odd is a food name
+
+
+      }
+          
+      // Send POST request to server, need to edit
+      fetch('/submit-form', {
+        method: 'POST',
+        //body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          // Handle successful response from server
+          console.log('Form submitted successfully');
+          window.location.href = "/success.html"; // Redirect to success page
+        } else {
+          // Handle error response from server
+          console.error('Error submitting form');
+        }
+      })
+      .catch(error => {
+        // Handle network error
+        console.error('Network error:', error);
+      });
+    };
 
 
 
@@ -131,11 +215,11 @@
               <div class="row">
                 <div class="mb-3">
                   <label class="form-label">Title</label>
-                  <input id="title" type="text" class="form-control">
+                  <input id="title" type="text" class="form-control" required>
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Description</label>
-                  <textarea id="description" class="form-control" rows="3" maxlength="256"></textarea>
+                  <textarea id="description" class="form-control" rows="3" maxlength="256" required></textarea>
                 </div>
               </div>
             </div>
@@ -157,14 +241,41 @@
           <div class="card mb-4">
             <div class="card-body">
               <h3 class="h6">Steps</h3>
-              <ol id="list">
+              <ol id="stepsList">
                 <li>
-                  <input type="text">
+                  <input type="text" required>
                   <button onclick="this.parentNode.parentNode.removeChild(this.parentNode);">Delete</button>
                 </li>
               </ol>
-              <button type="button" onclick="addElement()" >Add Element</button>
-              <button type="button" onclick="clearList()" >Clear All</button>
+              <button type="button" onclick="addElementSteps()" >Add Element</button>
+              <button type="button" onclick="clearListSteps()" >Clear All</button>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-body">
+              <h3 class="h6">Equipment</h3>
+              <ol id="equipmentList">
+                <li>
+                  <input type="text" id="equipment" required>
+                  <button onclick="this.parentNode.parentNode.removeChild(this.parentNode);">Delete</button>
+                </li>
+              </ol>
+              <button type="button" onclick="addElementEquipment()" >Add Element</button>
+              <button type="button" onclick="clearListEquipment()" >Clear All</button>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-body">
+              <h3 class="h6">Food and Amount</h3>
+              <ol id="foodList">
+                <li>
+                  <input type="text" id="foodType" required>
+                  <input type="text" id="foodAmount" required>
+                  <button onclick="this.parentNode.parentNode.removeChild(this.parentNode);">Delete</button>
+                </li>
+              </ol>
+              <button type="button" onclick="addElementFood()" >Add Element</button>
+              <button type="button" onclick="clearListFood()" >Clear All</button>
             </div>
           </div>
         </div>
