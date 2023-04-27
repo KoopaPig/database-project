@@ -1,0 +1,17 @@
+.deleteButton {
+    background-color: red !important;
+    color:white !important;
+    border-radius: 5px !important;
+    border:transparent !important;
+    height: 20px;
+    width:60px;
+  }
+
+  .addButton {
+    background-color: lightgreen !important;
+    color:white !important;
+    border-radius: 5px !important;
+    border:transparent !important;
+    height: 20px;
+    width:fit-content;
+  }
