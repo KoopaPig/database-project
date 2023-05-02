@@ -15,19 +15,19 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
   <script type="module" src="../static/js/main.js"></script>
-    <script> 
-      function buttonNext() {
-        
-      };
-      function buttonPrev() {
-    
-      };
-    
-    </script>
+  <script>
+    function buttonNext() {
+
+    };
+    function buttonPrev() {
+
+    };
+
+  </script>
 </head>
 
 <body class="ms-4 me-4">
-  <!--==============================Main Navbar=================================-->  
+  <!--==============================Main Navbar=================================-->
   <div class="container">
     <nav class="navbar mainNavbar navbar-expand-lg">
       <div class="container-fluid">
@@ -65,13 +65,12 @@
     </nav>
   </div>
 
-  <!--==============================HomeGrid=================================-->  
+  <!--==============================HomeGrid=================================-->
   <div class="wrapper homeGrid mt-5">
-    {% for item in posts %}       
-    <div class="card recipeCard rounded" style="width: 18rem;">    
+    {% for item in posts %}
+    <div class="card recipeCard rounded" style="width: 18rem;">
       <a href="/post/{{item.id}}">
-        <img src="{{item.image}}"
-          class="card-img-top" alt="default_image">
+        <img src="{{item.image}}" class="card-img-top" alt="default_image">
         <div class="card-body">
           <p>{{item.title}}</p>
           <p>{{item.rating}}</p>
@@ -81,7 +80,7 @@
     </div>
     {% endfor %}
   </div>
-  
+
   <!-- implement page buttons -->
   <div class="container-fluid">
     <div class="d-flex justify-content-around align-items-center mt-4 mb-4">
