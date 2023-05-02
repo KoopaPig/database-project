@@ -70,7 +70,9 @@
     {% for item in posts %}
     <div class="card recipeCard rounded" style="width: 18rem;">
       <a href="/post/{{item.id}}">
-        <img src="{{item.image}}" class="card-img-top" alt="default_image">
+        <img src="data:image/jpeg;base64,{{ item.image }}"
+          class="card-img-top" alt="default_image">
+
         <div class="card-body">
           <p>{{item.title}}</p>
           <p>{{item.rating}}</p>

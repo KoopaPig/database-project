@@ -71,6 +71,7 @@
     line-height: 1.5;
   }
   
+
   /* apply some media queries for mobile responsiveness */
   @media (max-width: 767px) {
     .container-post {
